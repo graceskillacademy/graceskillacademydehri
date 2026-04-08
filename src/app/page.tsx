@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 
 const PHONE = "9122427077";
 const WA = "7488545901";
@@ -94,7 +94,7 @@ export default function GraceSkillAcademy() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", city: "", stream: "" });
   const [sent, setSent] = useState(false);
-  const [faqOpen, setFaqOpen] = useState(null);
+  const [faqOpen, setFaqOpen] = useState<number | null>(null);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
@@ -102,14 +102,14 @@ export default function GraceSkillAcademy() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const submit = (e) => {
+  const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const msg = encodeURIComponent(`🎓 New BCA Admission Lead\nName: ${form.name}\nPhone: ${form.phone}\nCity: ${form.city}\nStream: ${form.stream || "Not specified"}`);
     window.open(`https://wa.me/91${WA}?text=${msg}`, "_blank");
     setSent(true);
   };
 
-  const hover = (el, on) => {
+  const hover = (el: HTMLElement, on: boolean) => {
     el.style.borderColor = on ? "rgba(245,158,11,.45)" : "rgba(255,255,255,0.07)";
     el.style.transform = on ? "translateY(-4px)" : "none";
   };
@@ -470,7 +470,11 @@ export default function GraceSkillAcademy() {
                 </div>
                 <p style={{ color: "#555", fontSize: ".84rem", marginBottom: 26 }}>Mr. Krishna Bihari Singh will call you back within 30 minutes. No spam, ever.</p>
                 <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  {[["Your Full Name *", "name", "text"], ["WhatsApp Number *", "phone", "tel"], ["Your City / District *", "city", "text"]].map(([ph, key, type]) => (
+                  {([
+                    ["Your Full Name *", "name", "text"],
+                    ["WhatsApp Number *", "phone", "tel"],
+                    ["Your City / District *", "city", "text"],
+                  ] as const).map(([ph, key, type]) => (
                     <input key={key} type={type} placeholder={ph} required value={form[key]}
                       onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
                       style={{ background: "#171717", border: "1px solid #242424", borderRadius: 12, padding: "14px 18px", color: "#fff", fontSize: ".95rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
