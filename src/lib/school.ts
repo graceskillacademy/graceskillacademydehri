@@ -1,3 +1,3 @@
 /** Public branding — use across pages */
-export const SCHOOL_NAME = "Sone Valley International School";
-export const SCHOOL_LOCATION_LINE = "Nasriganj, Rohtas, Bihar";
+export const SCHOOL_NAME = "Grace Skill Academy";
+export const SCHOOL_LOCATION_LINE = "Exalt Student Counseling Center";

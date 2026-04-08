@@ -13,9 +13,9 @@ const fontMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sone Valley International School | Nasriganj, Rohtas, Bihar",
+  title: "Grace Skill Academy | BCA · Exalt Student Counseling Center · Dehri & Rohtas, Bihar",
   description:
-    "CBSE affiliated English medium school — admissions, academics, activities, and holistic development at Nasriganj, Rohtas, Bihar.",
+    "BCA with Bihar Student Credit Card, paid internship, 100% placement assistance, and Exalt Student Counseling Centers in Dehri on Sone and Karup / Nasriganj, Rohtas, Bihar.",
 };
 
 export default function RootLayout({

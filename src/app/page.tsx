@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent, type MouseEvent } from "react";
 
 const PHONE = "9122427077";
 const WA = "7488545901";
@@ -7,14 +7,42 @@ const WA_MSG = encodeURIComponent("Hi! I want to know more about BCA admission a
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const stats = [
-  { value: "100%", label: "Placement Guarantee" },
+  { value: "100%", label: "Placement Assistance" },
   { value: "₹0", label: "Upfront Fee" },
   { value: "3 LPA", label: "Avg Package" },
   { value: "3+", label: "Months Paid Internship" },
 ];
 
+/** Poster & campus images live in /public/images — URL-encode spaces for the poster file */
+const campusGallery = [
+  { src: "/images/Skill_Grace_Academy_dehri_classroom_and_training_center_image.jpeg", alt: "Grace Skill Academy classroom and training center" },
+  { src: "/images/Skill_Grace_Academy_dehri_inside_office_image.jpeg", alt: "Grace Skill Academy office" },
+  { src: "/images/Grace_Skill%20Academy_dehri%20_poster.jpeg", alt: "Grace Skill Academy poster" },
+] as const;
+
+const uspPoints = [
+  { n: "01", title: "Training within course period", desc: "Complete structured training on schedule — no open-ended gaps." },
+  { n: "02", title: "WWH format (What, Why, How)", desc: "Every topic is taught with clarity on what it is, why it matters, and how to apply it." },
+  { n: "03", title: "Outcome-based learning", desc: "Lessons map to measurable skills and job-ready outcomes, not rote coverage." },
+  { n: "04", title: "Scratch to advanced level", desc: "Start from fundamentals and progress to advanced, industry-level depth." },
+  { n: "05", title: "Individual placement training", desc: "One-on-one guidance for resume, profiles, and your placement journey." },
+  { n: "06", title: "Client project mandatory", desc: "Real client-style projects are compulsory so you build a credible portfolio." },
+  { n: "07", title: "Personality development & communication", desc: "Dedicated focus on soft skills, speaking, and professional presence." },
+  { n: "08", title: "Online test on every unit", desc: "Objective assessment after each unit to lock in understanding." },
+  { n: "09", title: "Mock interviews — twice a month", desc: "Regular mock interview practice with feedback to build confidence." },
+  { n: "10", title: "Initial consultation before joining", desc: "We estimate your prior knowledge so we can place you on the right learning path." },
+  { n: "11", title: "Award-level competitions", desc: "Competitive events that push you to excel and get recognised." },
+  { n: "12", title: "Individual tracking & doubt clearance", desc: "Performance tracking per student with dedicated doubt-solving support." },
+] as const;
+
+const studentCommitments = [
+  "Minimum 80% attendance",
+  "Complete all assignments on time",
+  "At least 2 hours of self-study or revision daily",
+] as const;
+
 const whyUs = [
-  { icon: "💻", title: "Free Laptop on Day 1", desc: "Every admitted student receives a laptop — no hidden cost, no conditions." },
+  { icon: "💻", title: "Free laptop — first 30 students", desc: "Hurry — complimentary laptop for the first 30 admitted students only. Limited seats; confirm early." },
   { icon: "🏛️", title: "AICTE Approved & AKU Affiliated", desc: "Degree awarded by Exalt College of Engineering & Technology, Patna. Nationally recognised." },
   { icon: "💳", title: "100% Free via Student Credit Card", desc: "Bihar Student Credit Card covers the full ₹2,70,000 fee. You pay nothing from pocket." },
   { icon: "💼", title: "Paid Industry Internship", desc: "3-month paid internship during college — real companies, real salary, real experience." },
@@ -34,32 +62,32 @@ const skills = [
 ];
 
 const curriculum = [
-  { sem: "Sem 1–2", title: "Foundation", topics: "Programming fundamentals, Maths, Web basics, Digital Lab access from Day 1" },
-  { sem: "Sem 3–4", title: "Core + Skills", topics: "Data Structures, DBMS, Full Stack Dev, AI/ML basics, Personality Development" },
+  { sem: "Sem 1–2", title: "Foundation + live projects", topics: "Programming fundamentals, Maths, Web basics, digital lab from Day 1. From the second semester: live project training on Java, Python, AI, and algorithms. When this training phase completes, every student submits three live projects to the organisation." },
+  { sem: "Sem 3–4", title: "Core + Skills", topics: "Data Structures, DBMS, Full Stack Dev, AI/ML depth, personality development, continued project work." },
   { sem: "Sem 5", title: "Specialisation", topics: "Choose your track: AI/ML, Cyber Security, Data Science or Digital Marketing" },
-  { sem: "Sem 6", title: "Internship & Placement", topics: "3-month paid internship + 6-month placement training + final placement drives" },
+  { sem: "Sem 6", title: "Paid internship & placement", topics: "Paid internship within the course period + placement training + drives. 100% guaranteed placement assistance through mock interviews, drives, and support until you are placed." },
 ];
 
 const steps = [
   { n: "01", t: "Free Consultation", d: "Call or WhatsApp Mr. Krishna Bihari Singh. All doubts cleared in 10 min." },
   { n: "02", t: "Student Credit Card", d: "We guide you step-by-step to apply for Bihar Student Credit Card — completely free." },
-  { n: "03", t: "Admission + Laptop", d: "Complete your registration, collect your free laptop, and start from Day 1." },
+  { n: "03", t: "Admission + Laptop (first 30)", d: "Complete your registration — complimentary laptop for the first 30 students only. Limited seats; hurry." },
   { n: "04", t: "Skill Building Begins", d: "Offline/online classes, industry experts, and digital lab access from the very first week." },
-  { n: "05", t: "Paid Internship", d: "In your 5th/6th sem — work in real companies and earn while you study." },
-  { n: "06", t: "Guaranteed Placement", d: "Mock interviews → actual interviews → offer letter. 100% placement assistance guaranteed." },
+  { n: "05", t: "Paid Internship", d: "Paid internship during the course — work with real teams and earn while you study." },
+  { n: "06", t: "100% placement assistance", d: "Mock interviews (twice a month), drives, and guidance until you get placement support through offer stage." },
 ];
 
 const placementProcess = [
   { icon: "📚", step: "Skill & Placement Training", desc: "6 months of intensive industry-ready training covering communication, aptitude & tech skills." },
-  { icon: "🎤", step: "Mock Interviews", desc: "Multiple rounds of mock interviews with real industry feedback to build confidence." },
+  { icon: "🎤", step: "Mock Interviews", desc: "Mock interviews twice a month with real industry feedback to build confidence." },
   { icon: "🏢", step: "Company Drives", desc: "Top companies like TATA and others visit for campus placement drives." },
   { icon: "📄", step: "Offer Letter", desc: "Every student gets placement assistance until they receive a confirmed offer letter." },
 ];
 
 const offers = [
-  { icon: "🎁", title: "Free Laptop", desc: "Receive a brand-new laptop on the day of joining — yours to keep forever." },
+  { icon: "🎁", title: "Free laptop — first 30 only", desc: "Limited seats: complimentary laptop for the first 30 admitted students. Hurry — confirm your seat early." },
   { icon: "💳", title: "Zero Fee via Student Card", desc: "Bihar Student Credit Card loan facility covers the entire ₹2,70,000 course fee." },
-  { icon: "🏆", title: "Bihar's First Guaranteed Program", desc: "The only program in Bihar with both guaranteed placement AND guaranteed paid internship." },
+  { icon: "🏆", title: "Internship + placement support", desc: "Paid internship within the course period and 100% guaranteed placement assistance — a complete career launch." },
 ];
 
 const eligibility = [
@@ -72,8 +100,8 @@ const eligibility = [
 
 const faqs = [
   { q: "क्या सच में पूरी पढ़ाई फ्री होती है?", a: "हाँ। Bihar Student Credit Card से पूरे ₹2,70,000 का loan मिलता है जो सीधे college को जाता है। आपको अपनी जेब से कुछ नहीं देना।" },
-  { q: "Laptop कब मिलेगा?", a: "Admission complete होते ही, Day 1 पर laptop मिलेगा। यह offer सभी नए admitted students के लिए है।" },
-  { q: "Placement guarantee का मतलब क्या है?", a: "Grace Skill Academy हर student को placement मिलने तक assistance देती है — mock interviews से लेकर actual drives तक।" },
+  { q: "Laptop कब और किसे मिलेगा?", a: "यह सीमित offer है — केवल पहले 30 admitted students को Day 1 पर complimentary laptop मिलेगा। Seats Limited हैं, जल्दी confirm करें।" },
+  { q: "Placement assistance का मतलब क्या है?", a: "Grace Skill Academy 100% guaranteed placement assistance देती है — mock interviews (महीने में दो बार), company drives, और लगातार guidance जब तक आप offer तक पहुँचने में मदद पाते रहें।" },
   { q: "क्या online classes भी होती हैं?", a: "हाँ। Classes hybrid हैं — आप Dehri campus में आकर पढ़ सकते हैं या घर से online join कर सकते हैं।" },
   { q: "Internship paid होगी?", a: "हाँ। 3-month internship industry में होगी और आपको उसका stipend/salary मिलेगी।" },
   { q: "Degree किस university से मिलेगी?", a: "Degree Exalt College of Engineering & Technology, Patna से मिलेगी जो AKU (Aryabhatta Knowledge University) से affiliated और AICTE approved है।" },
@@ -102,12 +130,12 @@ export default function GraceSkillAcademy() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+  function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const msg = encodeURIComponent(`🎓 New BCA Admission Lead\nName: ${form.name}\nPhone: ${form.phone}\nCity: ${form.city}\nStream: ${form.stream || "Not specified"}`);
     window.open(`https://wa.me/91${WA}?text=${msg}`, "_blank");
     setSent(true);
-  };
+  }
 
   const hover = (el: HTMLElement, on: boolean) => {
     el.style.borderColor = on ? "rgba(245,158,11,.45)" : "rgba(255,255,255,0.07)";
@@ -131,7 +159,7 @@ export default function GraceSkillAcademy() {
           <div style={{ width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#f59e0b,#ef4444)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 16 }}>G</div>
           <div>
             <div style={{ fontWeight: 800, fontSize: 14, lineHeight: 1.2 }}>Grace Skill Academy</div>
-            <div style={{ fontSize: 10, color: "#888" }}>Dehri on Sone, Bihar</div>
+            <div style={{ fontSize: 10, color: "#888" }}>Exalt Student Counseling Center</div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
@@ -150,19 +178,20 @@ export default function GraceSkillAcademy() {
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 15% 60%, rgba(245,158,11,0.06) 0%, transparent 45%), radial-gradient(circle at 85% 25%, rgba(239,68,68,0.06) 0%, transparent 45%)", pointerEvents: "none" }} />
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", marginBottom: 24 }}>
-          <span style={{ background: "rgba(245,158,11,.12)", border: "1px solid rgba(245,158,11,.35)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#f59e0b" }}>🎓 ADMISSION OPEN 2025</span>
-          <span style={{ background: "rgba(37,211,102,.1)", border: "1px solid rgba(37,211,102,.3)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#25D366" }}>✅ BIHAR'S FIRST GUARANTEED PROGRAM</span>
+          <span style={{ background: "rgba(245,158,11,.12)", border: "1px solid rgba(245,158,11,.35)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#f59e0b" }}>🎓 ADMISSION OPEN 2026</span>
+          <span style={{ background: "rgba(37,211,102,.1)", border: "1px solid rgba(37,211,102,.3)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#25D366" }}>✅ BIHAR&apos;S FIRST GUARANTEED PROGRAM</span>
         </div>
 
         <h1 style={{ fontFamily: "'Baloo 2',cursive", fontSize: "clamp(2.4rem,7.5vw,5rem)", fontWeight: 800, lineHeight: 1.08, margin: "0 0 22px", maxWidth: 820 }}>
           BCA की पढ़ाई<br />
           <span style={S.gold}>बिल्कुल मुफ्त</span> 🎓<br />
-          <span style={{ fontSize: "65%", color: "#ccc" }}>+ Free Laptop on Joining 💻</span>
+          <span style={{ fontSize: "65%", color: "#ccc" }}>+ Free Laptop 💻 for first 30 students </span>
+          <span style={{ fontSize: "65%", color: "#ccc" }}>Hurry UP! </span>
         </h1>
 
         <p style={{ fontSize: "clamp(.95rem,2.2vw,1.15rem)", color: "#999", maxWidth: 620, margin: "0 0 10px", lineHeight: 1.75 }}>
           Bihar Student Credit Card से पूरे <strong style={{ color: "#f59e0b" }}>₹2,70,000</strong> की BCA degree बिल्कुल फ्री।
-          AICTE Approved, AKU Affiliated degree + <strong style={{ color: "#fff" }}>100% Guaranteed Placement</strong> + <strong style={{ color: "#fff" }}>Paid Internship</strong>.
+          AICTE Approved, AKU Affiliated degree + <strong style={{ color: "#fff" }}>100% Guaranteed Placement Assistance</strong> + <strong style={{ color: "#fff" }}>Paid Internship</strong>.
         </p>
         <p style={{ fontSize: 13, color: "#555", marginBottom: 36 }}>📍 Opp. Nehru College, Dehri on Sone, Rohtas · Franchise of Exalt College of Engineering & Technology, Patna</p>
 
@@ -185,7 +214,7 @@ export default function GraceSkillAcademy() {
       {/* OFFER STRIP */}
       <div style={{ background: "linear-gradient(90deg,#c2410c,#f59e0b,#c2410c)", padding: "16px 24px", textAlign: "center" }}>
         <p style={{ margin: 0, fontWeight: 800, fontSize: "clamp(.85rem,2vw,1.05rem)", color: "#000" }}>
-          🔥 LIMITED SEATS 2025 — Free Laptop + Zero Fee + Paid Internship + 100% Placement &nbsp;|&nbsp; Call: {PHONE}
+          🔥 LIMITED SEATS FOR 2026 — Laptop (first 30) + Zero Fee + Paid Internship + 100% Placement Assistance. Hurry Up!
         </p>
       </div>
 
@@ -210,6 +239,29 @@ export default function GraceSkillAcademy() {
         </div>
       </section>
 
+      {/* BRANCHES — Exalt Student Counseling Centers */}
+      <section style={{ padding: "60px 20px", borderBottom: "1px solid #111", background: "rgba(245,158,11,0.03)" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <span style={S.label}>Our centres</span>
+            <h2 style={S.h2}>Exalt Student Counseling — <span style={S.gold}>Dehri & Nasriganj</span></h2>
+            <p style={{ color: "#666", marginTop: 10, maxWidth: 560, margin: "10px auto 0" }}>Grace Skill Academy operates as Exalt Student Counseling Centers across two regions in Rohtas district.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 18 }}>
+            <div style={{ ...S.card, padding: "26px 24px" }}>
+              <div style={{ fontSize: 28, marginBottom: 12 }}>📍</div>
+              <h3 style={{ fontWeight: 800, fontSize: "1rem", marginBottom: 8, color: "#f59e0b" }}>Dehri on Sone</h3>
+              <p style={{ color: "#888", fontSize: ".88rem", margin: 0, lineHeight: 1.65 }}>Exalt Student Counseling Center at Grace Skill Academy — Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305 (near Karup Bazar, Tata Motors, Bikramganj Road).</p>
+            </div>
+            <div style={{ ...S.card, padding: "26px 24px" }}>
+              <div style={{ fontSize: 28, marginBottom: 12 }}>📍</div>
+              <h3 style={{ fontWeight: 800, fontSize: "1rem", marginBottom: 8, color: "#f59e0b" }}>Karup · Nasriganj · Rohtas</h3>
+              <p style={{ color: "#888", fontSize: ".88rem", margin: 0, lineHeight: 1.65 }}>Second Exalt Student Counseling Center branch serving Karup, Nasriganj, and Rohtas — same BCA counselling, admissions guidance, and hybrid program support. Visit or call for the nearest desk timings.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHY US */}
       <section style={{ padding: "80px 20px", maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 52 }}>
@@ -220,12 +272,50 @@ export default function GraceSkillAcademy() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))", gap: 18 }}>
           {whyUs.map(f => (
             <div key={f.title} style={{ ...S.card, transition: "border-color .2s, transform .2s", cursor: "default" }}
-              onMouseEnter={e => hover(e.currentTarget, true)} onMouseLeave={e => hover(e.currentTarget, false)}>
+              onMouseEnter={(e: MouseEvent<HTMLDivElement>) => hover(e.currentTarget, true)} onMouseLeave={(e: MouseEvent<HTMLDivElement>) => hover(e.currentTarget, false)}>
               <div style={{ fontSize: 34, marginBottom: 14 }}>{f.icon}</div>
               <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 8 }}>{f.title}</h3>
               <p style={{ color: "#666", fontSize: ".875rem", margin: 0, lineHeight: 1.65 }}>{f.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* USP */}
+      <section style={{ padding: "70px 20px", background: "rgba(255,255,255,0.02)", borderTop: "1px solid #111" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <span style={S.label}>Our USP</span>
+            <h2 style={S.h2}>Twelve reasons students <span style={S.gold}>choose us</span></h2>
+            <p style={{ color: "#666", marginTop: 10, maxWidth: 560, margin: "10px auto 0" }}>Clear teaching, real projects, and personal support — built into every semester.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 14 }}>
+            {uspPoints.map(u => (
+              <div key={u.n} style={{ ...S.card, padding: "20px 22px", display: "flex", gap: 14, alignItems: "flex-start" }}>
+                <div style={{ minWidth: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg,#f59e0b,#ef4444)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 11, color: "#000", flexShrink: 0 }}>{u.n}</div>
+                <div>
+                  <h3 style={{ fontWeight: 700, fontSize: ".9rem", margin: "0 0 6px" }}>{u.title}</h3>
+                  <p style={{ color: "#666", fontSize: ".82rem", margin: 0, lineHeight: 1.6 }}>{u.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CAMPUS GALLERY */}
+      <section style={{ padding: "70px 20px", borderTop: "1px solid #111" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+          <span style={S.label}>Campus & training center</span>
+          <h2 style={S.h2}>A glimpse of <span style={S.gold}>Grace Skill Academy</span></h2>
+          <p style={{ color: "#666", marginBottom: 36, maxWidth: 520, margin: "12px auto 36px" }}>Classroom, office, and centre poster — see where you will learn and build projects.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16 }}>
+            {campusGallery.map(img => (
+              <div key={img.src} style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)", background: "#111" }}>
+                <img src={img.src} alt={img.alt} style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -248,9 +338,9 @@ export default function GraceSkillAcademy() {
 
       {/* SKILLS */}
       <section style={{ padding: "80px 20px", maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
-        <span style={S.label}>Industry Skills You'll Master</span>
+        <span style={S.label}>Industry Skills You&apos;ll Master</span>
         <h2 style={S.h2}>Skills That Get You <span style={S.gold}>Hired at Top Companies</span></h2>
-        <p style={{ color: "#666", marginBottom: 40, maxWidth: 540, margin: "12px auto 40px" }}>Beyond standard BCA curriculum — you'll be job-ready from Semester 1 itself.</p>
+        <p style={{ color: "#666", marginBottom: 40, maxWidth: 540, margin: "12px auto 40px" }}>Beyond standard BCA curriculum — you&apos;ll be job-ready from Semester 1 itself.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 16 }}>
           {skills.map(s => (
             <div key={s.name} style={{ background: "rgba(245,158,11,.05)", border: "1px solid rgba(245,158,11,.18)", borderRadius: 16, padding: "20px", display: "flex", alignItems: "center", gap: 14, textAlign: "left" }}>
@@ -293,7 +383,7 @@ export default function GraceSkillAcademy() {
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <span style={S.label}>Placement & Career</span>
           <h2 style={S.h2}>100% Guaranteed <span style={S.gold}>Placement Assistance</span></h2>
-          <p style={{ color: "#666", marginTop: 10, maxWidth: 580, margin: "10px auto 0" }}>Every single student gets placement assistance — no one is left behind. Average package: <strong style={{ color: "#f59e0b" }}>3 LPA</strong>. Hiring partners include <strong style={{ color: "#fff" }}>TATA</strong> and other top companies.</p>
+          <p style={{ color: "#666", marginTop: 10, maxWidth: 580, margin: "10px auto 0" }}>Every enrolled student receives structured placement assistance — mock interviews twice a month, drives, and guidance through the offer process. Average package: <strong style={{ color: "#f59e0b" }}>3 LPA</strong>. Hiring partners include <strong style={{ color: "#fff" }}>TATA</strong> and other top companies.</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 18 }}>
           {placementProcess.map(p => (
@@ -306,8 +396,8 @@ export default function GraceSkillAcademy() {
         </div>
         <div style={{ marginTop: 22, background: "linear-gradient(135deg,rgba(37,211,102,.07),rgba(37,211,102,.02))", border: "1px solid rgba(37,211,102,.18)", borderRadius: 18, padding: "26px 32px", display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#25D366", marginBottom: 6 }}>✅ Guaranteed Paid Internship During College</div>
-            <div style={{ color: "#777", fontSize: ".88rem" }}>3-month paid industrial internship — earn real money while still in college. 100% guaranteed for every student.</div>
+            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#25D366", marginBottom: 6 }}>✅ Paid internship within the course period</div>
+            <div style={{ color: "#777", fontSize: ".88rem" }}>Industrial internship with salary/stipend during your degree — timed within the program so you earn real experience before finals. 100% guaranteed pathway for every student.</div>
           </div>
           <button onClick={() => setOpen(true)} style={{ ...S.btn, background: "#25D366", color: "#000", boxShadow: "0 0 20px rgba(37,211,102,.25)", whiteSpace: "nowrap" }}>Claim Your Seat →</button>
         </div>
@@ -345,7 +435,7 @@ export default function GraceSkillAcademy() {
                 { label: "Total Course Fee", val: "₹2,70,000", note: "Tuition + Registration + Exams included" },
                 { label: "Your Payment", val: "₹0", note: "Covered by Bihar Student Credit Card" },
                 { label: "Loan Repayment", val: "After Job", note: "Start repaying only after you get placed" },
-                { label: "Free Laptop", val: "Included", note: "Handed over on Day 1 of joining" },
+                { label: "Free Laptop", val: "First 30", note: "Complimentary laptop on Day 1 — first 30 admitted students only; limited seats" },
               ].map(r => (
                 <div key={r.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", ...S.card, padding: "14px 20px", borderRadius: 14 }}>
                   <div>
@@ -370,6 +460,19 @@ export default function GraceSkillAcademy() {
             </div>
             <div style={{ marginTop: 14, background: "rgba(245,158,11,.06)", border: "1px solid rgba(245,158,11,.18)", borderRadius: 12, padding: "14px 18px", fontSize: ".84rem", color: "#999" }}>
               🎯 <strong style={{ color: "#f59e0b" }}>Targeting:</strong> 12th Pass, Drop-year students, and students from Dehri, Rohtas & surrounding districts of Bihar.
+            </div>
+            <div style={{ marginTop: 20 }}>
+              <span style={S.label}>What we expect from you</span>
+              <h3 style={{ fontWeight: 800, fontSize: "1.05rem", margin: "10px 0 14px" }}>Student commitments</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {studentCommitments.map(c => (
+                  <div key={c} style={{ display: "flex", alignItems: "center", gap: 12, ...S.card, padding: "13px 18px", borderRadius: 12 }}>
+                    <span style={{ color: "#ef4444", fontSize: "1rem", flexShrink: 0 }}>!</span>
+                    <span style={{ fontSize: ".88rem", fontWeight: 500 }}>{c}</span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 12, color: "#555", marginTop: 12, lineHeight: 1.6 }}>These norms keep batches effective for everyone — attendance, assignments, and daily revision are mandatory.</p>
             </div>
           </div>
         </div>
@@ -434,12 +537,12 @@ export default function GraceSkillAcademy() {
 
       {/* FINAL CTA */}
       <section style={{ padding: "90px 20px", background: "radial-gradient(ellipse at 50% 100%,#1c0e00 0%,#080808 60%)", borderTop: "1px solid rgba(245,158,11,.1)", textAlign: "center" }}>
-        <div style={{ display: "inline-block", background: "rgba(239,68,68,.12)", border: "1px solid rgba(239,68,68,.28)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#ef4444", marginBottom: 22 }}>⚡ SEATS FILLING FAST — 2025 BATCH</div>
+        <div style={{ display: "inline-block", background: "rgba(239,68,68,.12)", border: "1px solid rgba(239,68,68,.28)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#ef4444", marginBottom: 22 }}>⚡ SEATS FILLING FAST — 2026 BATCH</div>
         <h2 style={{ fontFamily: "'Baloo 2',cursive", fontSize: "clamp(2rem,5vw,3.5rem)", fontWeight: 800, margin: "0 0 16px" }}>
           अभी Apply करें —<br /><span style={S.gold}>ज़िंदगी बदलने का मौका!</span>
         </h2>
         <p style={{ color: "#777", fontSize: "1rem", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.75 }}>
-          Free laptop. Zero fees. Paid internship. Guaranteed placement.<br />Bihar's first and only complete BCA career program — only in Dehri on Sone.
+          Laptop for the first 30 students — hurry. Limited seats. Zero fees. Paid internship in the course period. 100% placement assistance.<br />Bihar&apos;s first complete BCA career program — Exalt Student Counseling Centers in Dehri on Sone and Karup / Nasriganj, Rohtas.
         </p>
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <button onClick={() => setOpen(true)} style={{ ...S.btn, fontSize: "1.05rem", padding: "18px 44px" }}>🎓 Apply Free in 60 Seconds →</button>
@@ -450,7 +553,7 @@ export default function GraceSkillAcademy() {
       {/* FOOTER */}
       <footer style={{ padding: "28px 20px", borderTop: "1px solid #111", textAlign: "center" }}>
         <p style={{ color: "#333", fontSize: 12, margin: 0, lineHeight: 1.9 }}>
-          © 2025 <strong style={{ color: "#555" }}>Grace Skill Academy</strong> · Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305<br />
+          © 2026 <strong style={{ color: "#555" }}>Grace Skill Academy</strong> · Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305<br />
           Franchise of Exalt College of Engineering & Technology, Patna · AICTE Approved · AKU Affiliated<br />
           📧 kb9122427077@gmail.com · <a href="https://www.graceacademy.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f59e0b", textDecoration: "none" }}>graceacademy.com</a>
         </p>
@@ -461,7 +564,7 @@ export default function GraceSkillAcademy() {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.9)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
           onClick={() => setOpen(false)}>
           <div style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 24, padding: "40px 32px", maxWidth: 440, width: "100%", boxSizing: "border-box" }}
-            onClick={e => e.stopPropagation()}>
+            onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
             {!sent ? (
               <>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
@@ -476,10 +579,10 @@ export default function GraceSkillAcademy() {
                     ["Your City / District *", "city", "text"],
                   ] as const).map(([ph, key, type]) => (
                     <input key={key} type={type} placeholder={ph} required value={form[key]}
-                      onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => setForm(p => ({ ...p, [key]: e.target.value }))}
                       style={{ background: "#171717", border: "1px solid #242424", borderRadius: 12, padding: "14px 18px", color: "#fff", fontSize: ".95rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
                   ))}
-                  <select value={form.stream} onChange={e => setForm(p => ({ ...p, stream: e.target.value }))}
+                  <select value={form.stream} onChange={(e: ChangeEvent<HTMLSelectElement>) => setForm(p => ({ ...p, stream: e.target.value }))}
                     style={{ background: "#171717", border: "1px solid #242424", borderRadius: 12, padding: "14px 18px", color: form.stream ? "#fff" : "#666", fontSize: ".95rem", outline: "none" }}>
                     <option value="">Your 12th Stream (optional)</option>
                     <option>Arts</option><option>Science</option><option>Commerce</option><option>Other</option>
