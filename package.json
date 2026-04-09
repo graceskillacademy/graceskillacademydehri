@@ -1,7 +1,7 @@
 {
-  "name": "sone-valley-international-school",
+  "name": "graceskillacademydehri",
   "version": "1.0.0",
-  "description": "Premium landing page for Sone Valley International School - CBSE Affiliated",
+  "description": "Grace Skill Academy — BCA admissions, Exalt Student Counseling Center, Dehri & Rohtas, Bihar",
   "private": true,
   "scripts": {
     "dev": "next dev",

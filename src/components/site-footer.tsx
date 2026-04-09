@@ -19,8 +19,8 @@ export function SiteFooter() {
           <div>
             <h3 className="text-white font-bold mb-4">{SCHOOL_NAME}</h3>
             <p className="text-sm text-gray-400">{SCHOOL_LOCATION_LINE}</p>
-            <p className="text-sm mt-3">Est. 2013 | CBSE Affiliated | English Medium</p>
-            <p className="text-sm mt-2">Building leaders for tomorrow</p>
+            <p className="text-sm mt-3">BCA · AICTE-approved pathway via Exalt College of Engineering & Technology, Patna (AKU)</p>
+            <p className="text-sm mt-2">Career-focused training, paid internship & placement assistance</p>
           </div>
 
           <div>
@@ -64,15 +64,19 @@ export function SiteFooter() {
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
                 <MapPin size={16} className="flex-shrink-0 mt-0.5" />
-                <span>Nasriganj, Rohtas, Bihar 803101</span>
+                <span>Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305 · Karup / Nasriganj centre</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={16} />
-                <span>+91-XXXX-XXXX</span>
+                <a href="tel:9122427077" className="hover:text-white transition">
+                  +91-9122427077
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={16} />
-                <span>info@sonevalley.in</span>
+                <a href="mailto:kb9122427077@gmail.com" className="hover:text-white transition">
+                  kb9122427077@gmail.com
+                </a>
               </div>
             </div>
           </div>

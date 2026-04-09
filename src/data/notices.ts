@@ -6,38 +6,38 @@ export type Notice = {
   category?: string;
 };
 
-/** Update this list as your school publishes notices */
+/** Update this list as Grace Skill Academy publishes notices */
 export const NOTICES: Notice[] = [
   {
     id: "1",
-    title: "Admissions open for academic year 2026–27",
+    title: "BCA admissions open — 2026 batch",
     date: "2026-03-01",
     detail:
-      "Registrations are now open for all grades. Parents are invited to visit the campus or call the admissions desk for counselling slots.",
+      "Registrations are open for BCA via Bihar Student Credit Card. Visit the Dehri centre or Nasriganj / Karup counselling desk for free counselling slots.",
     category: "Admissions",
   },
   {
     id: "2",
-    title: "Holiday — annual maintenance",
+    title: "Centre closed — infrastructure maintenance",
     date: "2026-03-15",
     detail:
-      "The school will remain closed for infrastructure maintenance on the notified date. Online assignments will be shared via class groups.",
+      "Grace Skill Academy training centres will remain closed on the notified date for maintenance. Hybrid learners will receive batch updates on WhatsApp.",
     category: "Holiday",
   },
   {
     id: "3",
-    title: "PTM schedule — Term I",
+    title: "Student Credit Card documentation drive",
     date: "2026-03-20",
     detail:
-      "Parent–teacher meetings are scheduled by grade. Please check the circular sent on the school portal for your child’s slot.",
+      "Bring 12th marksheet and domicile documents for assisted Student Credit Card filing. Check your SMS or WhatsApp group for your batch slot.",
     category: "Academics",
   },
   {
     id: "4",
-    title: "Inter-house sports trials",
+    title: "Live project submission — Semester 2 cohort",
     date: "2026-04-02",
     detail:
-      "Trials for athletics and team sports will be held after school hours. Students must carry house ID cards and sports kit.",
-    category: "Sports",
+      "Students completing live project training (Java, Python, AI) must submit three projects to the organisation as per the handbook. Report to the lab lead after class hours if you need an extension.",
+    category: "Projects",
   },
 ];

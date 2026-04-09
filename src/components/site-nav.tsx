@@ -29,10 +29,10 @@ export function SiteNav() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
         <Link href="/" className="shrink-0 min-w-0" onClick={() => setOpen(false)}>
           <div className="flex flex-col leading-tight">
-            <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            <span className="text-[1.3rem] lg:text-[3.445rem] font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent leading-tight">
               {SCHOOL_NAME}
             </span>
-            <span className="text-[11px] sm:text-xs md:text-sm text-gray-600 font-medium mt-0.5">
+            <span className="text-[0.89375rem] lg:text-[2.368rem] text-gray-600 font-medium mt-0.5 leading-tight">
               {SCHOOL_LOCATION_LINE}
             </span>
           </div>

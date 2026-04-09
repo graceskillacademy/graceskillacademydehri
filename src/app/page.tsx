@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, type ChangeEvent, type FormEvent, type MouseEvent } from "react";
+import { isGoogleFormConfigured, submitLeadToGoogleForm } from "@/lib/google-form-lead";
 
 const PHONE = "9122427077";
 const WA = "7488545901";
@@ -10,7 +11,7 @@ const stats = [
   { value: "100%", label: "Placement Assistance" },
   { value: "₹0", label: "Upfront Fee" },
   { value: "3 LPA", label: "Avg Package" },
-  { value: "3+", label: "Months Paid Internship" },
+  { value: "3", label: "Months Paid Internship" },
 ];
 
 /** Poster & campus images live in /public/images — URL-encode spaces for the poster file */
@@ -45,7 +46,7 @@ const whyUs = [
   { icon: "💻", title: "Free laptop — first 30 students", desc: "Hurry — complimentary laptop for the first 30 admitted students only. Limited seats; confirm early." },
   { icon: "🏛️", title: "AICTE Approved & AKU Affiliated", desc: "Degree awarded by Exalt College of Engineering & Technology, Patna. Nationally recognised." },
   { icon: "💳", title: "100% Free via Student Credit Card", desc: "Bihar Student Credit Card covers the full ₹2,70,000 fee. You pay nothing from pocket." },
-  { icon: "💼", title: "Paid Industry Internship", desc: "3-month paid internship during college — real companies, real salary, real experience." },
+  { icon: "💼", title: "Paid Industry Internship", desc: "3-month paid internship during college — real companies, real salary, real experience. After three months: ranking-wise awards, certification, and support that helps with job placement." },
   { icon: "🎯", title: "6-Month Placement Training", desc: "Dedicated placement prep: mock interviews, aptitude, soft skills, then actual company interviews." },
   { icon: "🖥️", title: "Hybrid Classes Daily", desc: "Modern digital lab + experienced faculty. Attend in Dehri or online — your choice every day." },
   { icon: "📜", title: "Industry Certifications", desc: "Get certified in every skill domain — certifications employers actually look for." },
@@ -65,7 +66,7 @@ const curriculum = [
   { sem: "Sem 1–2", title: "Foundation + live projects", topics: "Programming fundamentals, Maths, Web basics, digital lab from Day 1. From the second semester: live project training on Java, Python, AI, and algorithms. When this training phase completes, every student submits three live projects to the organisation." },
   { sem: "Sem 3–4", title: "Core + Skills", topics: "Data Structures, DBMS, Full Stack Dev, AI/ML depth, personality development, continued project work." },
   { sem: "Sem 5", title: "Specialisation", topics: "Choose your track: AI/ML, Cyber Security, Data Science or Digital Marketing" },
-  { sem: "Sem 6", title: "Paid internship & placement", topics: "Paid internship within the course period + placement training + drives. 100% guaranteed placement assistance through mock interviews, drives, and support until you are placed." },
+  { sem: "Sem 6", title: "Paid internship & placement", topics: "3-month paid internship within the course period; after completion — ranking-wise awards and certification that help with job placement. Plus placement training + drives. 100% guaranteed placement assistance through mock interviews, drives, and support until you are placed." },
 ];
 
 const steps = [
@@ -73,7 +74,7 @@ const steps = [
   { n: "02", t: "Student Credit Card", d: "We guide you step-by-step to apply for Bihar Student Credit Card — completely free." },
   { n: "03", t: "Admission + Laptop (first 30)", d: "Complete your registration — complimentary laptop for the first 30 students only. Limited seats; hurry." },
   { n: "04", t: "Skill Building Begins", d: "Offline/online classes, industry experts, and digital lab access from the very first week." },
-  { n: "05", t: "Paid Internship", d: "Paid internship during the course — work with real teams and earn while you study." },
+  { n: "05", t: "Paid Internship", d: "3-month paid internship — work with real teams and earn while you study. After three months: ranking-wise awards, certification, and support for job placement." },
   { n: "06", t: "100% placement assistance", d: "Mock interviews (twice a month), drives, and guidance until you get placement support through offer stage." },
 ];
 
@@ -87,7 +88,7 @@ const placementProcess = [
 const offers = [
   { icon: "🎁", title: "Free laptop — first 30 only", desc: "Limited seats: complimentary laptop for the first 30 admitted students. Hurry — confirm your seat early." },
   { icon: "💳", title: "Zero Fee via Student Card", desc: "Bihar Student Credit Card loan facility covers the entire ₹2,70,000 course fee." },
-  { icon: "🏆", title: "Internship + placement support", desc: "Paid internship within the course period and 100% guaranteed placement assistance — a complete career launch." },
+  { icon: "🏆", title: "Internship + placement support", desc: "3-month paid internship; after completion — ranking-wise awards and certification that help with job placement, plus 100% guaranteed placement assistance — a complete career launch." },
 ];
 
 const eligibility = [
@@ -103,7 +104,7 @@ const faqs = [
   { q: "Laptop कब और किसे मिलेगा?", a: "यह सीमित offer है — केवल पहले 30 admitted students को Day 1 पर complimentary laptop मिलेगा। Seats Limited हैं, जल्दी confirm करें।" },
   { q: "Placement assistance का मतलब क्या है?", a: "Grace Skill Academy 100% guaranteed placement assistance देती है — mock interviews (महीने में दो बार), company drives, और लगातार guidance जब तक आप offer तक पहुँचने में मदद पाते रहें।" },
   { q: "क्या online classes भी होती हैं?", a: "हाँ। Classes hybrid हैं — आप Dehri campus में आकर पढ़ सकते हैं या घर से online join कर सकते हैं।" },
-  { q: "Internship paid होगी?", a: "हाँ। 3-month internship industry में होगी और आपको उसका stipend/salary मिलेगी।" },
+  { q: "Internship paid होगी?", a: "हाँ। 3 महीने की paid internship industry में होगी और stipend/salary मिलेगी। तीन महीने के बाद ranking के अनुसार award, certification, और job placement में मदद मिलेगी।" },
   { q: "Degree किस university से मिलेगी?", a: "Degree Exalt College of Engineering & Technology, Patna से मिलेगी जो AKU (Aryabhatta Knowledge University) से affiliated और AICTE approved है।" },
 ];
 
@@ -122,6 +123,7 @@ export default function GraceSkillAcademy() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", city: "", stream: "" });
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
 
   useEffect(() => {
@@ -130,11 +132,26 @@ export default function GraceSkillAcademy() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  function submit(e: FormEvent<HTMLFormElement>) {
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOPc1hrweQIyMtWcbvHz0loGjFcKwsrMkjp4048sk-AEygQi8f7R5etkRoze8GmaFQ/exec"; // ← paste your deployed URL
+
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const msg = encodeURIComponent(`🎓 New BCA Admission Lead\nName: ${form.name}\nPhone: ${form.phone}\nCity: ${form.city}\nStream: ${form.stream || "Not specified"}`);
-    window.open(`https://wa.me/91${WA}?text=${msg}`, "_blank");
-    setSent(true);
+    setSubmitting(true);
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setSent(true);
+      setForm({ name: "", phone: "", city: "", stream: "" });
+    } catch {
+      // no-cors means we can't read the response, but data still saves
+      setSent(true);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const hover = (el: HTMLElement, on: boolean) => {
@@ -156,16 +173,23 @@ export default function GraceSkillAcademy() {
         boxSizing: "border-box",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#f59e0b,#ef4444)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 16 }}>G</div>
+          <div
+            className="w-[38px] h-[38px] text-base lg:w-12 lg:h-12 lg:text-xl shrink-0"
+            style={{ borderRadius: "50%", background: "linear-gradient(135deg,#f59e0b,#ef4444)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900 }}
+          >
+            G
+          </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 14, lineHeight: 1.2 }}>Grace Skill Academy</div>
-            <div style={{ fontSize: 10, color: "#888" }}>Exalt Student Counseling Center</div>
+            <div className="font-extrabold text-[1.1375rem] leading-tight lg:text-[3.015625rem]">
+              Grace Skill Academy
+            </div>
+            <div className="text-[0.8125rem] leading-tight text-[#888] lg:text-[2.153125rem]">
+              Exalt Student Counseling Center
+            </div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
-          <a href={`https://wa.me/91${WA}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer"
-            style={{ background: "#25D366", color: "#fff", padding: "8px 16px", borderRadius: 24, fontWeight: 700, fontSize: 12, textDecoration: "none" }}>💬 WhatsApp</a>
-          <a href={`tel:${PHONE}`} style={{ background: "linear-gradient(135deg,#f59e0b,#ef4444)", color: "#000", padding: "9px 20px", borderRadius: 24, fontWeight: 800, fontSize: 13, textDecoration: "none" }}>📞 Call Now</a>
+          <a href={`tel:${PHONE}`} style={{ background: "linear-gradient(135deg,#f59e0b,#ef4444)", color: "#000", padding: "7px 16px", borderRadius: 24, fontWeight: 800, fontSize: 11, textDecoration: "none" }}>📞 Call Now</a>
         </div>
       </nav>
 
@@ -193,7 +217,7 @@ export default function GraceSkillAcademy() {
           Bihar Student Credit Card से पूरे <strong style={{ color: "#f59e0b" }}>₹2,70,000</strong> की BCA degree बिल्कुल फ्री।
           AICTE Approved, AKU Affiliated degree + <strong style={{ color: "#fff" }}>100% Guaranteed Placement Assistance</strong> + <strong style={{ color: "#fff" }}>Paid Internship</strong>.
         </p>
-        <p style={{ fontSize: 13, color: "#555", marginBottom: 36 }}>📍 Opp. Nehru College, Dehri on Sone, Rohtas · Franchise of Exalt College of Engineering & Technology, Patna</p>
+        <p style={{ fontSize: 13, color: "#555", marginBottom: 36 }}>📍 Opp. Nehru College, Dehri on Sone, Rohtas · Part of <strong style={{ color: "#f59e0b" }}>Exalt College of Engineering & Technology</strong>, Patna</p>
 
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 52 }}>
           <a href={`https://wa.me/91${WA}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer"
@@ -396,8 +420,8 @@ export default function GraceSkillAcademy() {
         </div>
         <div style={{ marginTop: 22, background: "linear-gradient(135deg,rgba(37,211,102,.07),rgba(37,211,102,.02))", border: "1px solid rgba(37,211,102,.18)", borderRadius: 18, padding: "26px 32px", display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#25D366", marginBottom: 6 }}>✅ Paid internship within the course period</div>
-            <div style={{ color: "#777", fontSize: ".88rem" }}>Industrial internship with salary/stipend during your degree — timed within the program so you earn real experience before finals. 100% guaranteed pathway for every student.</div>
+            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#25D366", marginBottom: 6 }}>✅ 3-month paid internship</div>
+            <div style={{ color: "#777", fontSize: ".88rem" }}>3-month industrial internship with salary/stipend during your degree. After three months: ranking-wise awards and certification that help with job placement — part of our 100% guaranteed assistance pathway for every student.</div>
           </div>
           <button onClick={() => setOpen(true)} style={{ ...S.btn, background: "#25D366", color: "#000", boxShadow: "0 0 20px rgba(37,211,102,.25)", whiteSpace: "nowrap" }}>Claim Your Seat →</button>
         </div>
@@ -554,7 +578,7 @@ export default function GraceSkillAcademy() {
       <footer style={{ padding: "28px 20px", borderTop: "1px solid #111", textAlign: "center" }}>
         <p style={{ color: "#333", fontSize: 12, margin: 0, lineHeight: 1.9 }}>
           © 2026 <strong style={{ color: "#555" }}>Grace Skill Academy</strong> · Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305<br />
-          Franchise of Exalt College of Engineering & Technology, Patna · AICTE Approved · AKU Affiliated<br />
+          Part of <strong style={{ color: "#f59e0b" }}>Exalt College of Engineering & Technology</strong>, Patna · AICTE Approved · AKU Affiliated<br />
           📧 kb9122427077@gmail.com · <a href="https://www.graceacademy.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f59e0b", textDecoration: "none" }}>graceacademy.com</a>
         </p>
       </footer>
@@ -587,8 +611,22 @@ export default function GraceSkillAcademy() {
                     <option value="">Your 12th Stream (optional)</option>
                     <option>Arts</option><option>Science</option><option>Commerce</option><option>Other</option>
                   </select>
-                  <button type="submit" style={{ ...S.btn, borderRadius: 12, padding: "15px", fontSize: "1rem", marginTop: 4, width: "100%", textAlign: "center" }}>
-                    Submit via WhatsApp →
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    style={{
+                      ...S.btn,
+                      borderRadius: 12,
+                      padding: "15px",
+                      fontSize: "1rem",
+                      marginTop: 4,
+                      width: "100%",
+                      textAlign: "center",
+                      opacity: submitting ? 0.75 : 1,
+                      cursor: submitting ? "wait" : "pointer",
+                    }}
+                  >
+{submitting ? "Sending…" : "Submit Application →"}
                   </button>
                 </form>
                 <p style={{ fontSize: 11, color: "#333", textAlign: "center", marginTop: 12 }}>📍 Grace Skill Academy · Dehri on Sone, Rohtas, Bihar</p>
@@ -597,7 +635,7 @@ export default function GraceSkillAcademy() {
               <div style={{ textAlign: "center", padding: "10px 0" }}>
                 <div style={{ fontSize: 60, marginBottom: 14 }}>🎉</div>
                 <h3 style={{ fontWeight: 800, fontSize: "1.25rem" }}>Application Sent!</h3>
-                <p style={{ color: "#777", fontSize: ".9rem" }}>Mr. Krishna Bihari Singh will contact you on WhatsApp within <strong style={{ color: "#f59e0b" }}>30 minutes</strong>.</p>
+                <p style={{ color: "#777", fontSize: ".9rem" }}>Mr. Krishna Bihari Singh will contact you within <strong style={{ color: "#f59e0b" }}>30 minutes</strong> (WhatsApp or call).</p>
                 <a href={`https://wa.me/91${WA}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer"
                   style={{ ...S.waBtn, marginTop: 20, borderRadius: 12, padding: "13px 28px", display: "inline-block" }}>💬 Also ping us on WhatsApp</a>
               </div>

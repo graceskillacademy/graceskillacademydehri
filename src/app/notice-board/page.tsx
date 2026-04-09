@@ -26,8 +26,8 @@ export default function NoticeBoardPage() {
           <p className="text-sm font-semibold text-blue-600 mb-2">Announcements</p>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Notice board</h1>
           <p className="text-gray-600 mb-10">
-            Latest circulars for parents, students, and staff of {SCHOOL_NAME}. For urgent queries, please contact
-            the school office.
+            Official updates for aspirants and students of {SCHOOL_NAME}. For urgent queries, contact the counselling
+            desk or WhatsApp the admissions team.
           </p>
 
           <div className="space-y-6">
@@ -52,10 +52,10 @@ export default function NoticeBoardPage() {
           </div>
 
           <div className="mt-12 p-6 rounded-xl bg-blue-50 border border-blue-100">
-            <p className="font-semibold text-gray-900 mb-2">School office</p>
+            <p className="font-semibold text-gray-900 mb-2">Counselling & admissions</p>
             <p className="text-gray-600 text-sm mb-4">
-              For verified copies of circulars or clarifications, visit the reception during working hours or call the
-              admissions helpline.
+              For verified copies of notices or fee and credit-card guidance, visit the Dehri centre during working hours
+              or call the admissions helpline (Mon–Sat, 9 AM–5 PM IST).
             </p>
             <Link href="/" className="inline-flex text-blue-700 font-semibold hover:text-blue-800">
               ← Back to home
