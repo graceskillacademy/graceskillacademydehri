@@ -180,10 +180,10 @@ export default function GraceSkillAcademy() {
           </div>
           <div>
             <div className="font-extrabold text-[1.1375rem] leading-tight lg:text-[1.5078125rem]">
-              Grace Skill Academy
+              GRACE SKILL ACADEMY
             </div>
             <div className="text-[0.8125rem] leading-tight text-[#888] lg:text-[1.0765625rem]">
-              Exalt Student Counseling Center
+              Powered by Exalt College of Engineering & Technology, Patna
             </div>
           </div>
         </div>
@@ -278,6 +278,16 @@ export default function GraceSkillAcademy() {
               alt="Exalt College of Engineering and Technology campus, Patna"
               style={{ width: "100%", height: "auto", display: "block" }}
             />
+          </div>
+          <div style={{ marginTop: 28, borderRadius: 20, border: "1px solid rgba(255,255,255,0.1)", background: "#111", maxWidth: 560, marginLeft: "auto", marginRight: "auto", padding: 12 }}>
+            <img
+              src="/images/exaly_Chairman_Mr._Dipak_Kumar.png"
+              alt="Mr. Dipak Kumar — Chairman, Exalt College of Engineering and Technology, Patna"
+              style={{ width: "100%", height: "auto", display: "block", objectFit: "contain" }}
+            />
+            <p style={{ margin: "14px 8px 8px", fontSize: ".88rem", color: "#888", fontWeight: 600 }}>
+              Mr. Dipak Kumar <span style={{ color: "#666", fontWeight: 500 }}>— Chairman, Exalt College of Engineering &amp; Technology, Patna</span>
+            </p>
           </div>
         </div>
       </section>
@@ -556,7 +566,7 @@ export default function GraceSkillAcademy() {
             <a href={`https://wa.me/91${WA}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" style={{ ...S.waBtn, padding: "15px 26px", borderRadius: 50 }}>💬 WhatsApp: {WA}</a>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginTop: 18 }}>
-            {["📅 Mon–Sat", "🕘 9:00 AM – 5:00 PM IST", "📍 Dehri on Sone, Rohtas", "🌐 graceacademy.com"].map(t => (
+            {["📅 Mon–Sat", "🕘 9:00 AM – 5:00 PM IST", "📍 Dehri on Sone, Rohtas", "📧 contactgraceskillacademy@gmail.com"].map(t => (
               <span key={t} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid #1c1c1c", borderRadius: 30, padding: "6px 16px", fontSize: 12, color: "#666" }}>{t}</span>
             ))}
           </div>
@@ -622,7 +632,7 @@ export default function GraceSkillAcademy() {
         <p style={{ color: "#333", fontSize: 12, margin: 0, lineHeight: 1.9 }}>
           © 2026 <strong style={{ color: "#555" }}>Grace Skill Academy</strong> · Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305<br />
           Part of <strong style={{ color: "#f59e0b" }}>Exalt College of Engineering & Technology</strong>, Patna · AICTE Approved · AKU Affiliated<br />
-          📧 kb9122427077@gmail.com · <a href="https://www.graceacademy.com" target="_blank" rel="noopener noreferrer" style={{ color: "#f59e0b", textDecoration: "none" }}>graceacademy.com</a>
+          📧 <a href="mailto:contactgraceskillacademy@gmail.com" style={{ color: "#f59e0b", textDecoration: "none" }}>contactgraceskillacademy@gmail.com</a>
         </p>
       </footer>
 

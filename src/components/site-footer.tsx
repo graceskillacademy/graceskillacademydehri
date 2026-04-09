@@ -74,8 +74,8 @@ export function SiteFooter() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={16} />
-                <a href="mailto:kb9122427077@gmail.com" className="hover:text-white transition">
-                  kb9122427077@gmail.com
+                <a href="mailto:contactgraceskillacademy@gmail.com" className="hover:text-white transition">
+                  contactgraceskillacademy@gmail.com
                 </a>
               </div>
             </div>
