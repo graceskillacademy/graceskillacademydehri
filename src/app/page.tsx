@@ -180,10 +180,10 @@ export default function GraceSkillAcademy() {
             G
           </div>
           <div>
-            <div className="font-extrabold text-[1.1375rem] leading-tight lg:text-[3.015625rem]">
+            <div className="font-extrabold text-[1.1375rem] leading-tight lg:text-[1.5078125rem]">
               Grace Skill Academy
             </div>
-            <div className="text-[0.8125rem] leading-tight text-[#888] lg:text-[2.153125rem]">
+            <div className="text-[0.8125rem] leading-tight text-[#888] lg:text-[1.0765625rem]">
               Exalt Student Counseling Center
             </div>
           </div>
@@ -259,6 +259,26 @@ export default function GraceSkillAcademy() {
                 <div style={{ fontSize: 11, color: "#555" }}>{b.sub}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* EXALT COLLEGE CAMPUS — A Part of */}
+      <section style={{ padding: "70px 20px", borderTop: "1px solid #111", borderBottom: "1px solid #111", background: "rgba(255,255,255,0.02)" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+          <span style={S.label}>A Part of</span>
+          <h2 style={S.h2}>
+            Exalt College of Engineering &amp; Technology, <span style={S.gold}>Patna</span>
+          </h2>
+          <p style={{ color: "#666", maxWidth: 620, margin: "12px auto 32px", lineHeight: 1.7 }}>
+            Your BCA runs under Exalt College — AICTE-approved, AKU-affiliated — with the campus infrastructure and academic backing of Patna.
+          </p>
+          <div style={{ borderRadius: 20, overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", background: "#111", maxWidth: 920, margin: "0 auto" }}>
+            <img
+              src="/images/Exalt_college_campus_image.webp"
+              alt="Exalt College of Engineering and Technology campus, Patna"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
           </div>
         </div>
       </section>
@@ -424,6 +444,30 @@ export default function GraceSkillAcademy() {
             <div style={{ color: "#777", fontSize: ".88rem" }}>3-month industrial internship with salary/stipend during your degree. After three months: ranking-wise awards and certification that help with job placement — part of our 100% guaranteed assistance pathway for every student.</div>
           </div>
           <button onClick={() => setOpen(true)} style={{ ...S.btn, background: "#25D366", color: "#000", boxShadow: "0 0 20px rgba(37,211,102,.25)", whiteSpace: "nowrap" }}>Claim Your Seat →</button>
+        </div>
+      </section>
+
+      {/* RECRUITMENT PARTNERS */}
+      <section style={{ padding: "80px 20px", maxWidth: 1100, margin: "0 auto", borderTop: "1px solid #111" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <span style={S.label}>Our recruitment partners</span>
+          <h2 style={S.h2}>
+            <span style={S.gold}>100+ Hiring Partners</span>
+            <br />
+            <span style={{ fontSize: "clamp(1.2rem,3.5vw,1.85rem)", fontWeight: 700, color: "#ccc" }}>
+              &amp; direct placement facilities
+            </span>
+          </h2>
+          <p style={{ color: "#666", marginTop: 14, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.75 }}>
+            Strong industry tie-ups and placement drives so you interview with real recruiters — not just classroom training.
+          </p>
+        </div>
+        <div style={{ borderRadius: 20, border: "1px solid rgba(255,255,255,0.08)", background: "#0a0a0a", padding: 12 }}>
+          <img
+            src="/images/our_recruitement_partners.jpeg"
+            alt="Grace Skill Academy hiring and recruitment partner logos"
+            style={{ width: "100%", maxWidth: "100%", height: "auto", display: "block", objectFit: "contain" }}
+          />
         </div>
       </section>
 
