@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, type ChangeEvent, type FormEvent, type MouseEvent } from "react";
-import { isGoogleFormConfigured, submitLeadToGoogleForm } from "@/lib/google-form-lead";
 
 const PHONE = "9122427077";
 const WA = "7488545901";
