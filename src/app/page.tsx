@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, type ChangeEvent, type FormEvent, type MouseEvent } from "react";
+import Image from "next/image";
 
 const PHONE = "9122427077";
 const WA = "7488545901";
@@ -159,8 +160,7 @@ export default function GraceSkillAcademy() {
   };
 
   return (
-    <div style={{ fontFamily: "'Poppins',sans-serif", background: "#080808", color: "#fff", overflowX: "hidden" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+    <div style={{ fontFamily: "var(--font-poppins), sans-serif", background: "#080808", color: "#fff", overflowX: "hidden" }}>
 
       {/* NAV */}
       <nav style={{
@@ -205,7 +205,7 @@ export default function GraceSkillAcademy() {
           <span style={{ background: "rgba(37,211,102,.1)", border: "1px solid rgba(37,211,102,.3)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#25D366" }}>✅ BIHAR&apos;S FIRST GUARANTEED PROGRAM</span>
         </div>
 
-        <h1 style={{ fontFamily: "'Baloo 2',cursive", fontSize: "clamp(2.4rem,7.5vw,5rem)", fontWeight: 800, lineHeight: 1.08, margin: "0 0 22px", maxWidth: 820 }}>
+        <h1 style={{ fontFamily: "var(--font-baloo-2), cursive", fontSize: "clamp(2.4rem,7.5vw,5rem)", fontWeight: 800, lineHeight: 1.08, margin: "0 0 22px", maxWidth: 820 }}>
           BCA की पढ़ाई<br />
           <span style={S.gold}>बिल्कुल मुफ्त</span> 🎓<br />
           <span style={{ fontSize: "65%", color: "#ccc" }}>+ Free Laptop 💻 for first 30 students </span>
@@ -227,7 +227,7 @@ export default function GraceSkillAcademy() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))", gap: 16, maxWidth: 700, width: "100%" }}>
           {stats.map(s => (
             <div key={s.label} style={{ ...S.card, padding: "22px 16px", textAlign: "center" }}>
-              <div style={{ fontFamily: "'Baloo 2',cursive", fontSize: "2rem", fontWeight: 800, ...S.gold }}>{s.value}</div>
+              <div style={{ fontFamily: "var(--font-baloo-2), cursive", fontSize: "2rem", fontWeight: 800, ...S.gold }}>{s.value}</div>
               <div style={{ fontSize: 12, color: "#777", marginTop: 4, lineHeight: 1.4 }}>{s.label}</div>
             </div>
           ))}
@@ -273,16 +273,21 @@ export default function GraceSkillAcademy() {
             Your BCA runs under Exalt College — AICTE-approved, AKU-affiliated — with the campus infrastructure and academic backing of Patna.
           </p>
           <div style={{ borderRadius: 20, overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", background: "#111", maxWidth: 920, margin: "0 auto" }}>
-            <img
+            <Image
               src="/images/Exalt_college_campus_image.webp"
               alt="Exalt College of Engineering and Technology campus, Patna"
+              width={920}
+              height={460}
               style={{ width: "100%", height: "auto", display: "block" }}
+              priority
             />
           </div>
           <div style={{ marginTop: 28, borderRadius: 20, border: "1px solid rgba(255,255,255,0.1)", background: "#111", maxWidth: 560, marginLeft: "auto", marginRight: "auto", padding: 12 }}>
-            <img
+            <Image
               src="/images/exaly_Chairman_Mr._Dipak_Kumar.png"
               alt="Mr. Dipak Kumar — Chairman, Exalt College of Engineering and Technology, Patna"
+              width={560}
+              height={350}
               style={{ width: "100%", height: "auto", display: "block", objectFit: "contain" }}
             />
             <p style={{ margin: "14px 8px 8px", fontSize: ".88rem", color: "#888", fontWeight: 600 }}>
@@ -365,7 +370,7 @@ export default function GraceSkillAcademy() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16 }}>
             {campusGallery.map(img => (
               <div key={img.src} style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)", background: "#111" }}>
-                <img src={img.src} alt={img.alt} style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }} />
+                <Image src={img.src} alt={img.alt} width={300} height={220} style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }} />
               </div>
             ))}
           </div>
@@ -472,9 +477,11 @@ export default function GraceSkillAcademy() {
           </p>
         </div>
         <div style={{ borderRadius: 20, border: "1px solid rgba(255,255,255,0.08)", background: "#0a0a0a", padding: 12 }}>
-          <img
+          <Image
             src="/images/our_recruitement_partners.jpeg"
             alt="Grace Skill Academy hiring and recruitment partner logos"
+            width={1000}
+            height={600}
             style={{ width: "100%", maxWidth: "100%", height: "auto", display: "block", objectFit: "contain" }}
           />
         </div>
@@ -615,7 +622,7 @@ export default function GraceSkillAcademy() {
       {/* FINAL CTA */}
       <section style={{ padding: "90px 20px", background: "radial-gradient(ellipse at 50% 100%,#1c0e00 0%,#080808 60%)", borderTop: "1px solid rgba(245,158,11,.1)", textAlign: "center" }}>
         <div style={{ display: "inline-block", background: "rgba(239,68,68,.12)", border: "1px solid rgba(239,68,68,.28)", borderRadius: 30, padding: "5px 18px", fontSize: 12, fontWeight: 700, color: "#ef4444", marginBottom: 22 }}>⚡ SEATS FILLING FAST — 2026 BATCH</div>
-        <h2 style={{ fontFamily: "'Baloo 2',cursive", fontSize: "clamp(2rem,5vw,3.5rem)", fontWeight: 800, margin: "0 0 16px" }}>
+        <h2 style={{ fontFamily: "var(--font-baloo-2), cursive", fontSize: "clamp(2rem,5vw,3.5rem)", fontWeight: 800, margin: "0 0 16px" }}>
           अभी Apply करें —<br /><span style={S.gold}>ज़िंदगी बदलने का मौका!</span>
         </h2>
         <p style={{ color: "#777", fontSize: "1rem", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.75 }}>

@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 
 const PHONE = "9122427077";
-const WA = "7488545901";
 
 /* ─── STYLES ────────────────────────────────────────────── */
 const S = {
@@ -23,8 +22,7 @@ export default function TermsAndConditions() {
   }, []);
 
   return (
-    <div style={{ fontFamily: "'Poppins',sans-serif", background: "#080808", color: "#fff", overflowX: "hidden" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+    <div style={{ fontFamily: "var(--font-poppins), sans-serif", background: "#080808", color: "#fff", overflowX: "hidden" }}>
 
       {/* NAV */}
       <nav style={{
@@ -66,7 +64,7 @@ export default function TermsAndConditions() {
       }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 15% 60%, rgba(245,158,11,0.06) 0%, transparent 45%), radial-gradient(circle at 85% 25%, rgba(239,68,68,0.06) 0%, transparent 45%)", pointerEvents: "none" }} />
 
-        <h1 style={{ fontFamily: "'Baloo 2',cursive", fontSize: "clamp(2.4rem,7.5vw,4rem)", fontWeight: 800, lineHeight: 1.08, margin: "0 0 22px", maxWidth: 820 }}>
+        <h1 style={{ fontFamily: "var(--font-baloo-2), cursive", fontSize: "clamp(2.4rem,7.5vw,4rem)", fontWeight: 800, lineHeight: 1.08, margin: "0 0 22px", maxWidth: 820 }}>
           <span style={S.gold}>Terms & Conditions</span>
         </h1>
 
@@ -212,7 +210,7 @@ export default function TermsAndConditions() {
 
           {/* Contact for Clarifications */}
           <div style={{ ...S.card, textAlign: "center", background: "rgba(245,158,11,.05)", border: "1px solid rgba(245,158,11,.15)" }}>
-            <h3 style={{ fontWeight: 800, fontSize: "1.2rem", marginBottom: 16, color: "#f59e0b" }}>Questions about Terms & Conditions?</h3>
+            <h3 style={{ fontWeight: 800, fontSize: "1.2rem", marginBottom: 16, color: "#f59e0b" }}>Questions about Terms &amp; Conditions?</h3>
             <p style={{ color: "#ccc", marginBottom: 20 }}>Contact our admission counselor for clarifications</p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
               <a href={`tel:${PHONE}`} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", padding: "12px 24px", borderRadius: 50, textDecoration: "none", fontWeight: 700 }}>📞 {PHONE}</a>
