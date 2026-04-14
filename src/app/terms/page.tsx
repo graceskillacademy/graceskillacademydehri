@@ -174,7 +174,7 @@ export default function TermsAndConditions() {
             <ul style={{ color: "#ccc", lineHeight: 1.7, paddingLeft: 20 }}>
               <li>Grace Skill Academy provides <strong style={{ color: "#fff" }}>placement assistance</strong>, not placement guarantee.</li>
               <li>Assistance includes resume building, interview preparation, and connecting with recruitment partners.</li>
-              <li>Student's performance, skills, and interview results determine final job placement.</li>
+              <li>Student&apos;s performance, skills, and interview results determine final job placement.</li>
               <li>Average package indication (3 LPA) is based on historical data and market conditions.</li>
               <li>Placement support continues until student receives suitable offer or for 6 months post-graduation, whichever is earlier.</li>
               <li>Students must actively participate in placement drives and company interviews arranged by the academy.</li>
