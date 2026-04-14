@@ -628,12 +628,51 @@ export default function GraceSkillAcademy() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding: "28px 20px", borderTop: "1px solid #111", textAlign: "center" }}>
-        <p style={{ color: "#333", fontSize: 12, margin: 0, lineHeight: 1.9 }}>
-          © 2026 <strong style={{ color: "#555" }}>Grace Skill Academy</strong> · Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305<br />
-          Part of <strong style={{ color: "#f59e0b" }}>Exalt College of Engineering & Technology</strong>, Patna · AICTE Approved · AKU Affiliated<br />
-          📧 <a href="mailto:contactgraceskillacademy@gmail.com" style={{ color: "#f59e0b", textDecoration: "none" }}>contactgraceskillacademy@gmail.com</a>
-        </p>
+      <footer style={{ padding: "40px 20px 28px", borderTop: "1px solid #111", background: "rgba(255,255,255,0.01)" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          {/* Quick Links */}
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 16, color: "#f59e0b" }}>Quick Links</h3>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 24px", justifyContent: "center" }}>
+              <a href="/terms" style={{ color: "#ccc", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color .2s" }} 
+                onMouseEnter={(e) => e.currentTarget.style.color = "#f59e0b"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "#ccc"}>
+                Terms & Conditions
+              </a>
+              <a href="mailto:contactgraceskillacademy@gmail.com" style={{ color: "#ccc", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color .2s" }} 
+                onMouseEnter={(e) => e.currentTarget.style.color = "#f59e0b"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "#ccc"}>
+                Contact Us
+              </a>
+              <a href={`tel:${PHONE}`} style={{ color: "#ccc", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color .2s" }} 
+                onMouseEnter={(e) => e.currentTarget.style.color = "#f59e0b"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "#ccc"}>
+                Call: {PHONE}
+              </a>
+              <a href={`https://wa.me/91${WA}?text=${WA_MSG}`} target="_blank" rel="noopener noreferrer" 
+                style={{ color: "#ccc", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color .2s" }} 
+                onMouseEnter={(e) => e.currentTarget.style.color = "#25D366"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "#ccc"}>
+                WhatsApp
+              </a>
+              <a href="https://maps.google.com/?q=Grace+Skill+Academy+BCA+Dehri+Bihar" target="_blank" rel="noopener noreferrer"
+                style={{ color: "#ccc", textDecoration: "none", fontSize: 14, fontWeight: 500, transition: "color .2s" }} 
+                onMouseEnter={(e) => e.currentTarget.style.color = "#f59e0b"}
+                onMouseLeave={(e) => e.currentTarget.style.color = "#ccc"}>
+                Location
+              </a>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div style={{ textAlign: "center", borderTop: "1px solid #1a1a1a", paddingTop: 20 }}>
+            <p style={{ color: "#333", fontSize: 12, margin: 0, lineHeight: 1.9 }}>
+              © 2026 <strong style={{ color: "#555" }}>Grace Skill Academy</strong> · Opp. Nehru College, Dehri on Sone, Rohtas, Bihar 821305<br />
+              Part of <strong style={{ color: "#f59e0b" }}>Exalt College of Engineering & Technology</strong>, Patna · AICTE Approved · AKU Affiliated<br />
+              📧 <a href="mailto:contactgraceskillacademy@gmail.com" style={{ color: "#f59e0b", textDecoration: "none" }}>contactgraceskillacademy@gmail.com</a>
+            </p>
+          </div>
+        </div>
       </footer>
 
       {/* MODAL */}
