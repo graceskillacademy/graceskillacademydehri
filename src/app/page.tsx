@@ -9,7 +9,7 @@ const WA_MSG = encodeURIComponent("Hi! I want to know more about BCA admission a
 /* ─── DATA ─────────────────────────────────────────────── */
 const stats = [
   { value: "100%", label: "Placement Assistance" },
-  { value: "₹0", label: "Upfront Fee" },
+  { value: "100+", label: "Company Tie-Ups" },
   { value: "3 LPA", label: "Avg Package" },
   { value: "3", label: "Months Paid Internship" },
 ];
